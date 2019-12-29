@@ -1,15 +1,26 @@
 {
   "manifest_version": 2,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "name": "My Chrome Extension",
-  "description": "Only prints Hello World for now",
+  "description": "Prints title of current page / tab",
+  "author": "Stephan Prätsch",
   "icons": {
     "16": "images/puppy16.png",
     "48": "images/puppy48.png",
     "128": "images/puppy.png"
   },
-  "browser_action":
-  {
+  "background": {
+    "scripts": [
+      "popup.js"
+    ],
+    "persistent": true
+  },
+  "permissions": [
+    "tabs",
+    "http://*/",
+    "https://*/"
+  ],
+  "browser_action": {
     "default_icon": "images/puppy.png",
     "default_popup": "popup.html"
   }

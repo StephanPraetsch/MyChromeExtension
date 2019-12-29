@@ -4,7 +4,15 @@ window.addEventListener("load", function(evt) {
   });
 });
 
-// Listen to messages from the payload.js script and write to popout.html
-chrome.runtime.onMessage.addListener(function(message) {
-  document.getElementById("pagetitle").innerHTML = message;
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+  console.log(`onUpdated tabId=${tabId} changeInfo=${changeInfo} tab=${tab}`);
+});
+
+chrome.runtime.onMessage.addListener(function(message, sender) {
+  console.log(`onMessage ${message} from ${sender.tab}`);
+  let pageTitle = document.getElementById("pagetitle");
+  if (pageTitle !== null && pageTitle !== undefined) {
+    console.log("set new title");
+    pageTitle.innerHTML = "foo" + message;
+  }
 });

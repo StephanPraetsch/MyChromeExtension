@@ -12,3 +12,4 @@ playing around
 * https://developer.chrome.com/extensions/getstarted
 * https://www.tomforth.co.uk/chromeextension/
 * https://medium.com/hci-wvu/hello-world-chrome-extension-tutorial-f2a174a5f5c0
+* https://developer.chrome.com/extensions/tut_debugging

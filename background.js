@@ -1,4 +1,4 @@
-console.log("background 222");
+console.log("background.js loaded");
 
 // eslint-disable-next-line @typescript-eslint/no-use-before-define
 chrome.browserAction.onClicked.addListener(buttonClicked);

@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "version": "0.0.3",
+  "version": "0.0.4",
   "name": "My Chrome Extension",
-  "description": "Prints title of current page / tab",
+  "description": "sends message from background to content",
   "author": "Stephan Prätsch",
   "icons": {
     "16": "images/puppy16.png",
@@ -11,17 +11,25 @@
   },
   "background": {
     "scripts": [
-      "popup.js"
-    ],
-    "persistent": true
+      "background.js"
+    ]
   },
+  "browser_action": {
+    "default_icon": "images/puppy.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
   "permissions": [
     "tabs",
     "http://*/",
     "https://*/"
-  ],
-  "browser_action": {
-    "default_icon": "images/puppy.png",
-    "default_popup": "popup.html"
-  }
+  ]
 }

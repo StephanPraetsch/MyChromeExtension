@@ -1,17 +1,13 @@
 console.log("content.js");
 
-const regex = ["http", "https"];
-
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-  console.log(message);
-
-  let element = "iframe";
-  let links = document.getElementsByTagName(element);
-  console.log('getElementsByTagName("' + element + '")');
-  for (let i = 0, max = links.length; i < max; i++) {
-    console.log(links[i].href);
+function filter(node) {
+  if (node.nodeName.toLocaleLowerCase().indexOf("video") !== -1) {
+    return true;
   }
+  return false;
+}
 
+function scanDocument(document) {
   let ni = document.createNodeIterator(
     document.documentElement,
     NodeFilter.SHOW_ELEMENT
@@ -19,13 +15,22 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 
   let currentNode;
   const nodes = new Set();
-  const iframes = new Set();
   while ((currentNode = ni.nextNode())) {
     if (currentNode.nodeName === "IFRAME") {
-      iframes.add(currentNode);
+      try {
+        let innerNodes = scanDocument(currentNode.contentWindow.document);
+        innerNodes.forEach(node => nodes.add(node));
+      } catch (e) {
+        // ignore, probably blocked as cross origin request
+      }
     }
-    nodes.add(currentNode.nodeName);
+    if (filter(currentNode)) {
+      nodes.add(currentNode);
+    }
   }
-  console.log(nodes);
-  console.log("iframes " + iframes.size);
+  return nodes;
+}
+
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+  console.log(Array.from(scanDocument(document)).sort());
 });

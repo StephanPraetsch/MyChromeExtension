@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "version": "0.0.4",
+  "version": "0.0.5",
   "name": "My Chrome Extension",
-  "description": "sends message from background to content",
+  "description": "scans for videos",
   "author": "Stephan Prätsch",
   "icons": {
     "16": "images/puppy16.png",
@@ -24,7 +24,8 @@
       ],
       "js": [
         "content.js"
-      ]
+      ],
+      "all_frames": true
     }
   ],
   "permissions": [

@@ -2,7 +2,9 @@ console.log("content.js");
 
 function filter(node) {
   if (node.nodeName.toLocaleLowerCase().indexOf("video") !== -1) {
-    return true;
+    if (node.src !== undefined) {
+      return true;
+    }
   }
   return false;
 }
@@ -31,6 +33,21 @@ function scanDocument(document) {
   return nodes;
 }
 
+function openInNewTab(string) {
+  let message = {
+    request: "openNewTab",
+    content: string
+  };
+  chrome.runtime.sendMessage(message);
+}
+
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-  console.log(Array.from(scanDocument(document)).sort());
+  console.log(message);
+  if (message.request === "scan") {
+    let videos = Array.from(scanDocument(document));
+    console.log(videos.sort());
+    if (videos.length > 0) {
+      openInNewTab(videos[0].outerHTML);
+    }
+  }
 });
